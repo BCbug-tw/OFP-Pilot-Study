@@ -12,11 +12,11 @@
 ### 1. 結構化資料分支 ([Tabular Branch](./Tabular%20Branch/))
 *   **目的**：專注於處理一維結構化數據（Tabular Data），探討如何最佳地學習到病患的生理指數與類別特徵。
 *   **測試模型**：包含產業界主流的梯度提升樹模型 (GBDT： XGBoost, LightGBM, CatBoost)，以及基於深度學習的架構 (FT-Transformer)。
-*   **詳細成果**：完整的超參數設定、訓練集分割策略以及各種模型彼此間的效能長短處比較（如 AUC、Accuracy 等），請參閱 [`Tabular_Branch_Report`](./Tabular%20Branch/tabular_branch_report.md)。
+*   **詳細成果**：完整的超參數設定、訓練集分割策略以及各種模型彼此間的效能長短處比較（如 AUC、Accuracy 等），請參閱 [`Tabular_Branch_Report`](./Tabular%20Branch/README.md)。
 
 ### 2. 影像分支 ([Image Branch](./Image%20Branch/))
 *   **目的**：專注於處理胸腔X光醫學影像資料，探討不同神經網絡架構在擷取影像關聯特徵上的表現，並特別研究領域自適應預訓練 (DAPT, Domain-Adaptive Pretraining) 與參數高效微調 (如 LoRA) 等技術如何影響成效。
 *   **測試模型**：包含卷積神經網絡 (ResNet50) 以及多種視覺 Transformer (Vision Transformer, Swin-Transformer)。
-*   **詳細成果**：實驗中所使用的影像處理手法、各階段微調機制的差異、以及最終影像分類指標的比較，請參閱 [`Image_Branch_Report`](./Image%20Branch/image_branch_report.md)。
+*   **詳細成果**：實驗中所使用的影像處理手法、各階段微調機制的差異、以及最終影像分類指標的比較，請參閱 [`Image_Branch_Report`](./Image%20Branch/README.md)。
 
 
