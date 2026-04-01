@@ -44,6 +44,15 @@
 
 評估結果與圖表請參考 [`image_comparison_results`](./image_comparison_results/)資料夾中的圖表與 csv 檔案。
 
+### 模型曲線比較 (ROC & PR Curves)
+
+<div align="center">
+  <img src="./image_comparison_results/Integrated_ROC_Curve.png" width="48%" alt="Integrated ROC Curve">
+  <img src="./image_comparison_results/Integrated_PR_Curve.png" width="48%" alt="Integrated PR Curve">
+</div>
+
+### 評估指標 (Metrics) 
+
 參考目前的評估指標 (`Model_Comparison_Metrics.csv`) 進行分析：
 
 | Model | Accuracy | Precision | Recall | AUC | AP (Avg Precision) |
@@ -60,15 +69,20 @@
 
 ### 分析結論：
 
-1.  **基準模型依然強大：**
+1.  **曲線離散度反映模型特性 (ROC 與 PR 圖表解釋)：**
+    從 ROC 與 PR 曲線圖中可以非常顯著地觀察到各個模型的落差形態：
+    *   **領先群：** **ResNet50** 與經過完整微調的 **ViT (DAPT+LoRA)** 曲線弧度最為飽滿，包覆在最外側，且在 PR 曲線中能長效維持較高的 Precision 緩步下降。
+    *   **失常陷阱：** 反觀 **Swin-T (DAPT+LoRA)** 的 ROC 曲線幾乎貼近 45 度角的對角線（如同盲猜），PR 曲線更是呈現斷崖式墜落，完全喪失鑑別力。這些視覺化曲線十分直觀地反映了底層不同網路結構處理醫學影像特徵時出現的適應性懸殊差異。
+
+2.  **基準模型依然強大：**
     **ResNet50 (ImageNet)** 在未經任何複雜微調機制的狀況下，達到了最高的 AUC (0.7486) 以及良好的召回率 (0.6375)。這顯示傳統 CNN 對於此類醫學影像（尤其是資料量受限於 10k 時）具有極強的穩定性與歸納偏置 (Inductive Bias)。
     
-2.  **ViT 與微調策略的有效結合：**
+3.  **ViT 與微調策略的有效結合：**
     *   ViT 在套用 DAPT 後，效能穩定超越單純的 ImageNet 權重。
     *   在 DAPT 基礎上加入 **LLRD** 或 **LoRA** 後，不但維持了優異的準確率 (~0.705)，其 AUC 更是提升至 ~0.74 (逼近 ResNet50 baseline)。
     *   這證明了對於 ViT，使用 DAPT 搭配 Parameter-Efficient 的微調方法 (尤其是 LLRD 與 LoRA) 是一個相對成功且穩健的策略。
 
-3.  **Swin-Transformer 的領域適應困境：**
+4.  **Swin-Transformer 的領域適應困境：**
     *   **Swin-T (ImageNet)** 的原始表現相當出眾 (Accuracy高達 0.715)，但一旦換用 **Swin-T (DAPT)**，所有指標皆出現顯著下滑 (AUC 從 0.7378 跌至 0.6783)。
     *   將 **LoRA** 套用於 Swin-T_DAPT 時幾乎崩潰，Recall 降至 0.075 (模型幾乎無法預測出正樣本)，AUC 掉至 0.5533 (近乎隨機猜測)。
     *   **可能原因：** Swin-Transformer 複雜的 Window Attention 階層式結構，在進行 DAPT 預訓練時可能並未良好收斂，或是產生的特徵空間與 LoRA 預設配置的適應性極差（例如 LoRA rank 或插入的位置不適合 Window Attention），導致微調失敗。

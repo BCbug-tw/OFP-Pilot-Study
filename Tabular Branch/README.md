@@ -57,6 +57,15 @@
 
 評估結果與圖表請參考 [`tabular_comparison_results`](./tabular_comparison_results/)資料夾中的圖表與 csv 檔案。
 
+### 模型曲線比較 (ROC & PR Curves)
+
+<div align="center">
+  <img src="./tabular_comparison_results/Tabular_Integrated_ROC_Curve.png" width="48%" alt="Tabular ROC Curve">
+  <img src="./tabular_comparison_results/Tabular_Integrated_PR_Curve.png" width="48%" alt="Tabular PR Curve">
+</div>
+
+### 評估指標 (Metrics)
+
 參考測試集上的評估指標 (`Tabular_Model_Comparison_Metrics.csv`)：
 
 | Model | Accuracy | Precision | Recall | AUC | AP (Avg Precision) |
@@ -68,13 +77,16 @@
 
 ### 分析結論：
 
-1.  **整體表現高度一致：**
-    四個模型在此資料集上的表現彼此極為接近。 Accuracy 幾乎皆停留在 0.756~0.758 之間，而 AUC 落在 0.831~0.834 上下。這表示資料中的預測極限可能已被這些頂尖模型充分發掘，單靠更換模型框架帶來的邊際效益已經很小。
+1.  **曲線軌跡高度疊合 (ROC 與 PR 圖表解釋)：**
+    從上面的模型曲線比較圖中可以極其直觀看見，無論是所有的樹木模型 (GBDT) 或是深度學習的 FT-Transformer，它們在 ROC 與 PR 空間上的軌跡幾乎是「全線黏合與重疊」。這不僅在視覺上強烈佐證了前述四者高度相似的表現，更代表目前的分類極限已與「更換模型框架」無關，而是目前的特徵本身所蘊含的資訊界線。
 
-2.  **GBDT 的穩定性與同質性：**
+2.  **總體指標表現高度一致：**
+    四個模型在此資料集上的表現彼此極為接近。 Accuracy 幾乎皆停留在 0.756~0.758 之間，而 AUC 落在 0.831~0.834 上下。這與圖表上看到的高度重合結果完全呼應。
+
+3.  **GBDT 的穩定性與同質性：**
     傳統的三大樹狀模型 (`XGBoost`, `LightGBM`, `CatBoost`) 產出的各項指標 (包含 AUC 0.831) 趨近完全相同。其中 `XGBoost` 與 `LightGBM` 的 Recall 微幅領先，這意味著它們找出了稍微多一些的實際糖尿病患者。GBDT 在無需複雜資料預處理的優勢下，依舊展現了在 Tabular Data 上強大的即戰力與一致性。
 
-3.  **FT-Transformer 的潛力與權衡：**
+4.  **FT-Transformer 的潛力與權衡：**
     *   **優勢：** 作為純深度學習架構的 FT-Transformer，成功超越了樹狀模型，達成了最高的 **AUC (0.834)**、最準確的 **Precision (0.701)** 以及最佳的 **AP (0.742)**。這證實了將特徵 Tokenize 化再送入 Transformer 提取特徵互動 (Feature Interactions) 的方法，在分類穩定度上的確具有些微優勢。
     *   **劣勢：** 它的 Recall (0.686) 相對最低，表示模型趨向保守，可能導致偏高的 False Negatives。
 
