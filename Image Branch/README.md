@@ -56,7 +56,7 @@
 參考目前的評估指標 (`Model_Comparison_Metrics.csv`) 進行分析：
 
 | Model | Accuracy | Precision | Recall | AUC | AP (Avg Precision) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
+| :--- | :---: | :---: | :---: | :---: | :---: |
 | **ResNet50_ImageNet** | 0.691 | 0.6086 | 0.6375 | **0.7486** | 0.6402 |
 | **Swin-T_ImageNet** | **0.715** | 0.6696 | 0.5675 | 0.7378 | 0.6273 |
 | Swin-T_DAPT | 0.645 | 0.5843 | 0.3900 | 0.6783 | 0.5504 |

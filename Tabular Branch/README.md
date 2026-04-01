@@ -69,7 +69,7 @@
 參考測試集上的評估指標 (`Tabular_Model_Comparison_Metrics.csv`)：
 
 | Model | Accuracy | Precision | Recall | AUC | AP (Avg Precision) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
+| :--- | :---: | :---: | :---: | :---: | :---: |
 | XGBoost | 0.757 | 0.687 | **0.722** | 0.831 | 0.740 |
 | LightGBM | 0.756 | 0.687 | 0.718 | 0.831 | 0.739 |
 | CatBoost | **0.758** | 0.692 | 0.712 | 0.831 | 0.736 |
