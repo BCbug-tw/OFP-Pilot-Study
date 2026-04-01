@@ -98,4 +98,4 @@
 
 ### 後續建議：
 *   **最佳化方向：** 未來若目標是減少漏判 (提升 Recall)，可以嘗試調整各模型的輸出的閥值 (Threshold) 或是採用 Weighted Loss/Focal Loss 來強制模型更重視正樣本。
-*   **落地考量 (Deployment)：** 雖然 FT-Transformer 在綜合排序能力 (AUC/AP) 上微微勝出，但在現實考量中，LightGBM 或 XGBoost 所需要的訓練時間和推論延遲往往只有深度學習模型的幾分之一，且佔用記憶體更小。若此微小差距不影響商業判斷，推薦優先部署 **LightGBM/XGBoost**；若這是資源充足的核心預測系統，則可以繼續深耕 **FT-Transformer** 並調優其 Recall。
+*   **落地考量 (Deployment)：** 雖然 FT-Transformer 在綜合排序能力 (AUC/AP) 上微微勝出，但在現實考量中，LightGBM 或 XGBoost 所需要的訓練時間和推論延遲往往只有深度學習模型的幾分之一，且佔用記憶體更小。若此微小差距不影響商業判斷，推薦優先部署 **LightGBM/XGBoost**；若這是資源充足的核心預測系統，則可以繼續深耕 **FT-Transformer** 並調優其 Recall。 
