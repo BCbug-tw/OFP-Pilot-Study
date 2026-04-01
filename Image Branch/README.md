@@ -16,12 +16,12 @@
 
 ## 2. 訓練之模型與策略
 
-本次實驗使用了標準卷積神經網路 (CNN) 與近年主流的 ViT (Vision Transformers) 進行比較，並導入了多種預訓練及 Parameter-Efficient Fine-Tuning (PEFT) 策略。
+本次實驗使用了標準卷積神經網路 (CNN) 與近年主流的視覺 Transformer 進行比較，並導入了多種預訓練及 Parameter-Efficient Fine-Tuning (PEFT) 策略。
 
 ### 訓練模型架構
 1.  **ResNet50:** 作為 CNN 的強勢基準模型 (Baseline)。
-2.  **Swin-Transformer (Tiny / Swin-T):** 具備階層式結構的區域性Transformer。
-3.  **Vision Transformer (ViT):** 標準基於全域自注意力機制的視覺Transformer。
+2.  **Swin-Transformer (Tiny / Swin-T):** 具備階層式結構的區域性 Transformer。
+3.  **Vision Transformer (ViT):** 標準基於全域自注意力機制的視覺 Transformer。
 
 ### 預訓練策略 (Pre-training)
 所有模型皆比較了兩種初始權重：
