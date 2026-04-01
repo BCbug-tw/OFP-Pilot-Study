@@ -55,6 +55,8 @@
 
 ## 3. 結果分析與比較
 
+評估結果與圖表請參考 [`tabular_comparison_results`](./tabular_comparison_results/)資料夾中的圖表與 csv 檔案。
+
 參考測試集上的評估指標 (`Tabular_Model_Comparison_Metrics.csv`)：
 
 | Model | Accuracy | Precision | Recall | AUC | AP (Avg Precision) |
@@ -75,6 +77,7 @@
 3.  **FT-Transformer 的潛力與權衡：**
     *   **優勢：** 作為純深度學習架構的 FT-Transformer，成功超越了樹狀模型，達成了最高的 **AUC (0.834)**、最準確的 **Precision (0.701)** 以及最佳的 **AP (0.742)**。這證實了將特徵 Tokenize 化再送入 Transformer 提取特徵互動 (Feature Interactions) 的方法，在分類穩定度上的確具有些微優勢。
     *   **劣勢：** 它的 Recall (0.686) 相對最低，表示模型趨向保守，可能導致偏高的 False Negatives。
+
 
 ### 後續建議：
 *   **最佳化方向：** 未來若目標是減少漏判 (提升 Recall)，可以嘗試調整各模型的輸出的閥值 (Threshold) 或是採用 Weighted Loss/Focal Loss 來強制模型更重視正樣本。

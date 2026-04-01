@@ -42,6 +42,8 @@
 
 ## 3. 結果分析與比較
 
+評估結果與圖表請參考 [`image_comparison_results`](./image_comparison_results/)資料夾中的圖表與 csv 檔案。
+
 參考目前的評估指標 (`Model_Comparison_Metrics.csv`) 進行分析：
 
 | Model | Accuracy | Precision | Recall | AUC | AP (Avg Precision) |
@@ -70,6 +72,7 @@
     *   **Swin-T (ImageNet)** 的原始表現相當出眾 (Accuracy高達 0.715)，但一旦換用 **Swin-T (DAPT)**，所有指標皆出現顯著下滑 (AUC 從 0.7378 跌至 0.6783)。
     *   將 **LoRA** 套用於 Swin-T_DAPT 時幾乎崩潰，Recall 降至 0.075 (模型幾乎無法預測出正樣本)，AUC 掉至 0.5533 (近乎隨機猜測)。
     *   **可能原因：** Swin-Transformer 複雜的 Window Attention 階層式結構，在進行 DAPT 預訓練時可能並未良好收斂，或是產生的特徵空間與 LoRA 預設配置的適應性極差（例如 LoRA rank 或插入的位置不適合 Window Attention），導致微調失敗。
+
 
 ### 後續建議：
 *   **針對 Swin-T:** 如果後續要繼續使用 Swin-Transformer，建議放棄目前的 DAPT 權重，退回 ImageNet 進行實驗，或是重新檢視並調整用於 Swin 的領域預訓練 (Domain Pre-training) 方法及 LoRA 的設定 (例如將 LoRA 套用到其他投影矩陣)。
