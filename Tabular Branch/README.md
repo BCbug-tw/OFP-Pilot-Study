@@ -22,34 +22,39 @@
 本次選用了三種主流的梯度提升樹 (GBDT) 框架以及一種專為結構化資料設計的 Transformer 深度學習模型：
 
 ### 梯度提升樹模型 (GBDTs)
-皆採用了相似的超參數基線設定以確保比較公平性：
+各模型經由 Optuna 進行超參數優化（Hyperparameter Optimization）後的最終設定如下：
 1.  **XGBoost:**
-    *   **樹木叢集數量 (n_estimators)：** 500
-    *   **樹的最大深度 (max_depth)：** 6
-    *   **學習率 (learning_rate)：** 0.05
-    *   **訓練樣本抽樣比例 (subsample)：** 0.8，加入隨機性防止過擬合。
-    *   **特徵隨機抽樣比例 (colsample_bytree)：** 0.8
+    *   **樹木叢集數量 (n_estimators)：** 1000
+    *   **樹的最大深度 (max_depth)：** 4
+    *   **學習率 (learning_rate)：** 0.01
+    *   **訓練樣本抽樣比例 (subsample)：** 0.55
+    *   **特徵隨機抽樣比例 (colsample_bytree)：** 0.55
+    *   **最小節點權重 (min_child_weight)：** 3
     *   **提早停止設定 (early_stopping_rounds)：** 50，於驗證集監控 `logloss`。
 2.  **LightGBM:**
-    *   **樹木叢集數量 (n_estimators)：** 500
-    *   **樹的最大深度 (max_depth)：** 6
-    *   **學習率 (learning_rate)：** 0.05
-    *   **訓練樣本抽樣比例 (subsample)：** 0.8
-    *   **特徵隨機抽樣比例 (colsample_bytree)：** 0.8
+    *   **樹木叢集數量 (n_estimators)：** 1000
+    *   **樹的最大深度 (max_depth)：** 3
+    *   **學習率 (learning_rate)：** 0.02
+    *   **訓練樣本抽樣比例 (subsample)：** 0.5
+    *   **特徵隨機抽樣比例 (colsample_bytree)：** 0.5
+    *   **L2 正規化係數 (reg_lambda)：** 0.9
     *   **提早停止設定 (early_stopping_rounds)：** 50
     *   **特徵處理：** 直接指定 `categorical_feature` 欄位以利用演算法內建的特徵分割技巧。
 3.  **CatBoost:**
-    *   **樹木叢集數量 (iterations)：** 500 (與前兩者的 n_estimators 意義相同)
-    *   **樹的最大深度 (depth)：** 6 (對應 max_depth)
-    *   **學習率 (learning_rate)：** 0.05
+    *   **樹木叢集數量 (iterations)：** 1000
+    *   **樹的最大深度 (depth)：** 8
+    *   **學習率 (learning_rate)：** 0.03
+    *   **L2 葉片正規化 (l2_leaf_reg)：** 1.8
+    *   **訓練樣本抽樣比例 (subsample)：** 0.8
+    *   **隨機強度 (random_strength)：** 6
     *   **提早停止設定 (early_stopping_rounds)：** 50，監控驗證集的 `Logloss`。
-    *   **特徵處理：** 設定 `cat_features`，交給 CatBoost 在訓練期間自動處理類別特徵 (採用如 Target Encoding 計算設計)。
+    *   **特徵處理：** 設定 `cat_features`，交給 CatBoost 在訓練期間自動處理類別特徵。
 
 ### 深度學習模型
 4.  **FT-Transformer (Feature Tokenizer + Transformer):**
     *   **架構：** `rtdl.FTTransformer`，專案引進的專注於對結構化資料特徵進行 Tokenize 後送入 Transformer 的模型。利用 `[CLS]` token 映射至最後的二元預測輸出。
-    *   **訓練策略：** 使用 `AdamW` 優化器 (`lr=1e-4`, `weight_decay=1e-5`)，搭配 `BCEWithLogitsLoss`，Batch Size 設定為 `512`。
-    *   **監控機制：** 最大訓練 `100` 個 Epochs，並在每個 Epoch 結束時計算 Validation Loss，以保存表現最好的權重 (Early Stopping 概念)。
+    *   **訓練策略：** 使用 `AdamW` 優化器 (`lr=1e-4`, `weight_decay=1e-5`)，搭配 `BCEWithLogitsLoss`。引進了 **`ReduceLROnPlateau`** 學習率排程器（當 Validation Loss 停滯時自動調降 LR），Batch Size 設定為 `512`。
+    *   **監控機制：** 最大訓練 `100` 個 Epochs，並在每個 Epoch 結束時計算 Validation Loss，以保存表現最好的權重。
 
 ---
 
@@ -70,25 +75,25 @@
 
 | Model | Accuracy | Precision | Recall | AUC | AP (Avg Precision) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| XGBoost | 0.757 | 0.687 | **0.722** | 0.831 | 0.740 |
-| LightGBM | 0.756 | 0.687 | 0.718 | 0.831 | 0.739 |
-| CatBoost | **0.758** | 0.692 | 0.712 | 0.831 | 0.736 |
-| **FT-Transformer** | 0.757 | **0.701** | 0.686 | **0.834** | **0.742** |
+| **XGBoost** | 0.758 | 0.691 | 0.712 | 0.833 | 0.744 |
+| **LightGBM** | 0.756 | 0.690 | 0.709 | **0.834** | **0.745** |
+| **CatBoost** | 0.758 | 0.691 | **0.716** | 0.832 | 0.743 |
+| **FT-Transformer** | **0.761** | **0.704** | 0.694 | 0.832 | 0.740 |
 
 ### 分析結論：
 
 1.  **曲線軌跡高度疊合 (ROC 與 PR 圖表解釋)：**
-    從上面的模型曲線比較圖中可以極其直觀看見，無論是所有的樹木模型 (GBDT) 或是深度學習的 FT-Transformer，它們在 ROC 與 PR 空間上的軌跡幾乎是「全線黏合與重疊」。這不僅在視覺上強烈佐證了前述四者高度相似的表現，更代表目前的分類極限已與「更換模型框架」無關，而是目前的特徵本身所蘊含的資訊界線。
+    從上面的模型曲線比較圖中可以極其直觀看見，無論是樹狀模型 (GBDT) 或是深度學習的 FT-Transformer，它們在 ROC 與 PR 空間上的軌跡幾乎是完全重疊。這不僅在視覺上強烈佐證了前述四者高度相似的表現，更代表目前的分類極限已與「更換模型框架」無關，而是目前的特徵本身所蘊含的資訊界線。
 
 2.  **總體指標表現高度一致：**
-    四個模型在此資料集上的表現彼此極為接近。 Accuracy 幾乎皆停留在 0.756~0.758 之間，而 AUC 落在 0.831~0.834 上下。這與圖表上看到的高度重合結果完全呼應。
+    四個模型在此資料集上的表現彼此極為接近。 Accuracy 落在 0.756~0.761 之間，而 AUC 則在 0.832~0.834 之間波動。這與圖表上看到的高度重合結果完全呼應，顯示即使是不同原理的演算法，其預測天花板也相當接近。
 
 3.  **GBDT 的穩定性與同質性：**
     傳統的三大樹狀模型 (`XGBoost`, `LightGBM`, `CatBoost`) 產出的各項指標 (包含 AUC 0.831) 趨近完全相同。其中 `XGBoost` 與 `LightGBM` 的 Recall 微幅領先，這意味著它們找出了稍微多一些的實際糖尿病患者。GBDT 在無需複雜資料預處理的優勢下，依舊展現了在 Tabular Data 上強大的即戰力與一致性。
 
-4.  **FT-Transformer 的潛力與權衡：**
-    *   **優勢：** 作為純深度學習架構的 FT-Transformer，成功超越了樹狀模型，達成了最高的 **AUC (0.834)**、最準確的 **Precision (0.701)** 以及最佳的 **AP (0.742)**。這證實了將特徵 Tokenize 化再送入 Transformer 提取特徵互動 (Feature Interactions) 的方法，在分類穩定度上的確具有些微優勢。
-    *   **劣勢：** 它的 Recall (0.686) 相對最低，表示模型趨向保守，可能導致偏高的 False Negatives。
+4.  **FT-Transformer 的突破與權衡：**
+    *   **優勢：** 在引入學習率排程與最佳化訓練流程後，FT-Transformer 展現了極強的分類能力，成功達成了全模型最高的 **Accuracy (0.761)** 與最高的 **Precision (0.704)**。這證實了將特徵 Tokenize 化再送入 Transformer 提取特徵互動 (Feature Interactions) 的方法，在分類準確度上的確具有領先優勢。
+    *   **劣勢：** 雖然在準確度上拔得頭籌，但其 Recall (0.694) 與 AP (0.740) 並非最高，且 AUC (0.832) 雖優異但略遜於 LightGBM 的 0.834。這意味著在「捕捉所有潛在患者」的全面掃描能力上，傳統樹狀模型依舊保有極微弱的領先。
 
 
 ### 後續建議：

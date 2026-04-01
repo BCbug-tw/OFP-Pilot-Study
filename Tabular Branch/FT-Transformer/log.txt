@@ -1,0 +1,138 @@
+2026-04-01 17:01:27,386 - INFO - Loading data...
+2026-04-01 17:01:27,403 - INFO - Preprocessing data...
+2026-04-01 17:01:27,417 - INFO - Train size: 14000, Val size: 3000, Test size: 3000
+2026-04-01 17:01:27,447 - INFO - Using device: cuda
+2026-04-01 17:01:27,541 - INFO - Initializing FT-Transformer...
+2026-04-01 17:01:28,109 - INFO - Starting training for 100 epochs...
+2026-04-01 17:01:28,637 - INFO - New best model saved at epoch 1 (Val Loss: 0.5276)
+2026-04-01 17:01:28,637 - INFO - Epoch [1/100] - Train Loss: 0.5900 - Val Loss: 0.5276
+2026-04-01 17:01:28,862 - INFO - New best model saved at epoch 2 (Val Loss: 0.5188)
+2026-04-01 17:01:28,863 - INFO - Epoch [2/100] - Train Loss: 0.5206 - Val Loss: 0.5188
+2026-04-01 17:01:29,072 - INFO - Epoch [3/100] - Train Loss: 0.5119 - Val Loss: 0.5228
+2026-04-01 17:01:29,304 - INFO - New best model saved at epoch 4 (Val Loss: 0.5096)
+2026-04-01 17:01:29,304 - INFO - Epoch [4/100] - Train Loss: 0.5094 - Val Loss: 0.5096
+2026-04-01 17:01:29,515 - INFO - Epoch [5/100] - Train Loss: 0.5049 - Val Loss: 0.5111
+2026-04-01 17:01:29,741 - INFO - New best model saved at epoch 6 (Val Loss: 0.5086)
+2026-04-01 17:01:29,741 - INFO - Epoch [6/100] - Train Loss: 0.5028 - Val Loss: 0.5086
+2026-04-01 17:01:29,946 - INFO - Epoch [7/100] - Train Loss: 0.5009 - Val Loss: 0.5135
+2026-04-01 17:01:30,153 - INFO - New best model saved at epoch 8 (Val Loss: 0.5076)
+2026-04-01 17:01:30,154 - INFO - Epoch [8/100] - Train Loss: 0.5028 - Val Loss: 0.5076
+2026-04-01 17:01:30,355 - INFO - Epoch [9/100] - Train Loss: 0.5032 - Val Loss: 0.5122
+2026-04-01 17:01:30,558 - INFO - Epoch [10/100] - Train Loss: 0.5015 - Val Loss: 0.5080
+2026-04-01 17:01:30,761 - INFO - Epoch [11/100] - Train Loss: 0.5011 - Val Loss: 0.5124
+2026-04-01 17:01:30,969 - INFO - New best model saved at epoch 12 (Val Loss: 0.5072)
+2026-04-01 17:01:30,969 - INFO - Epoch [12/100] - Train Loss: 0.5023 - Val Loss: 0.5072
+2026-04-01 17:01:31,181 - INFO - New best model saved at epoch 13 (Val Loss: 0.5057)
+2026-04-01 17:01:31,181 - INFO - Epoch [13/100] - Train Loss: 0.4973 - Val Loss: 0.5057
+2026-04-01 17:01:31,383 - INFO - Epoch [14/100] - Train Loss: 0.4969 - Val Loss: 0.5075
+2026-04-01 17:01:31,584 - INFO - Epoch [15/100] - Train Loss: 0.4967 - Val Loss: 0.5085
+2026-04-01 17:01:31,785 - INFO - Epoch [16/100] - Train Loss: 0.4982 - Val Loss: 0.5071
+2026-04-01 17:01:31,990 - INFO - Epoch [17/100] - Train Loss: 0.4972 - Val Loss: 0.5120
+2026-04-01 17:01:32,194 - INFO - Epoch [18/100] - Train Loss: 0.4943 - Val Loss: 0.5073
+2026-04-01 17:01:32,402 - INFO - Epoch [19/100] - Train Loss: 0.4936 - Val Loss: 0.5086
+2026-04-01 17:01:32,628 - INFO - Epoch [20/100] - Train Loss: 0.4935 - Val Loss: 0.5088
+2026-04-01 17:01:32,841 - INFO - Epoch [21/100] - Train Loss: 0.4954 - Val Loss: 0.5108
+2026-04-01 17:01:33,043 - INFO - Epoch [22/100] - Train Loss: 0.4932 - Val Loss: 0.5086
+2026-04-01 17:01:33,246 - INFO - Epoch [23/100] - Train Loss: 0.4892 - Val Loss: 0.5075
+2026-04-01 17:01:33,453 - INFO - Learning rate reduced: 0.000100 -> 0.000050
+2026-04-01 17:01:33,453 - INFO - Epoch [24/100] - Train Loss: 0.4878 - Val Loss: 0.5115
+2026-04-01 17:01:33,657 - INFO - Epoch [25/100] - Train Loss: 0.4851 - Val Loss: 0.5121
+2026-04-01 17:01:33,866 - INFO - Epoch [26/100] - Train Loss: 0.4845 - Val Loss: 0.5099
+2026-04-01 17:01:34,070 - INFO - Epoch [27/100] - Train Loss: 0.4838 - Val Loss: 0.5104
+2026-04-01 17:01:34,274 - INFO - Epoch [28/100] - Train Loss: 0.4828 - Val Loss: 0.5108
+2026-04-01 17:01:34,481 - INFO - Epoch [29/100] - Train Loss: 0.4827 - Val Loss: 0.5132
+2026-04-01 17:01:34,685 - INFO - Epoch [30/100] - Train Loss: 0.4812 - Val Loss: 0.5119
+2026-04-01 17:01:34,888 - INFO - Epoch [31/100] - Train Loss: 0.4827 - Val Loss: 0.5134
+2026-04-01 17:01:35,090 - INFO - Epoch [32/100] - Train Loss: 0.4788 - Val Loss: 0.5129
+2026-04-01 17:01:35,298 - INFO - Epoch [33/100] - Train Loss: 0.4777 - Val Loss: 0.5200
+2026-04-01 17:01:35,501 - INFO - Epoch [34/100] - Train Loss: 0.4761 - Val Loss: 0.5169
+2026-04-01 17:01:35,705 - INFO - Learning rate reduced: 0.000050 -> 0.000025
+2026-04-01 17:01:35,705 - INFO - Epoch [35/100] - Train Loss: 0.4765 - Val Loss: 0.5179
+2026-04-01 17:01:35,905 - INFO - Epoch [36/100] - Train Loss: 0.4744 - Val Loss: 0.5175
+2026-04-01 17:01:36,109 - INFO - Epoch [37/100] - Train Loss: 0.4710 - Val Loss: 0.5188
+2026-04-01 17:01:36,314 - INFO - Epoch [38/100] - Train Loss: 0.4721 - Val Loss: 0.5168
+2026-04-01 17:01:36,516 - INFO - Epoch [39/100] - Train Loss: 0.4714 - Val Loss: 0.5175
+2026-04-01 17:01:36,721 - INFO - Epoch [40/100] - Train Loss: 0.4687 - Val Loss: 0.5201
+2026-04-01 17:01:36,925 - INFO - Epoch [41/100] - Train Loss: 0.4699 - Val Loss: 0.5189
+2026-04-01 17:01:37,129 - INFO - Epoch [42/100] - Train Loss: 0.4694 - Val Loss: 0.5194
+2026-04-01 17:01:37,337 - INFO - Epoch [43/100] - Train Loss: 0.4683 - Val Loss: 0.5215
+2026-04-01 17:01:37,538 - INFO - Epoch [44/100] - Train Loss: 0.4682 - Val Loss: 0.5213
+2026-04-01 17:01:37,738 - INFO - Epoch [45/100] - Train Loss: 0.4671 - Val Loss: 0.5216
+2026-04-01 17:01:37,942 - INFO - Learning rate reduced: 0.000025 -> 0.000013
+2026-04-01 17:01:37,942 - INFO - Epoch [46/100] - Train Loss: 0.4671 - Val Loss: 0.5245
+2026-04-01 17:01:38,145 - INFO - Epoch [47/100] - Train Loss: 0.4648 - Val Loss: 0.5232
+2026-04-01 17:01:38,350 - INFO - Epoch [48/100] - Train Loss: 0.4650 - Val Loss: 0.5231
+2026-04-01 17:01:38,551 - INFO - Epoch [49/100] - Train Loss: 0.4645 - Val Loss: 0.5244
+2026-04-01 17:01:38,753 - INFO - Epoch [50/100] - Train Loss: 0.4634 - Val Loss: 0.5241
+2026-04-01 17:01:38,954 - INFO - Epoch [51/100] - Train Loss: 0.4642 - Val Loss: 0.5248
+2026-04-01 17:01:39,159 - INFO - Epoch [52/100] - Train Loss: 0.4644 - Val Loss: 0.5246
+2026-04-01 17:01:39,376 - INFO - Epoch [53/100] - Train Loss: 0.4629 - Val Loss: 0.5245
+2026-04-01 17:01:39,576 - INFO - Epoch [54/100] - Train Loss: 0.4608 - Val Loss: 0.5252
+2026-04-01 17:01:39,778 - INFO - Epoch [55/100] - Train Loss: 0.4592 - Val Loss: 0.5260
+2026-04-01 17:01:39,979 - INFO - Epoch [56/100] - Train Loss: 0.4597 - Val Loss: 0.5268
+2026-04-01 17:01:40,180 - INFO - Learning rate reduced: 0.000013 -> 0.000006
+2026-04-01 17:01:40,180 - INFO - Epoch [57/100] - Train Loss: 0.4593 - Val Loss: 0.5266
+2026-04-01 17:01:40,383 - INFO - Epoch [58/100] - Train Loss: 0.4582 - Val Loss: 0.5274
+2026-04-01 17:01:40,583 - INFO - Epoch [59/100] - Train Loss: 0.4596 - Val Loss: 0.5271
+2026-04-01 17:01:40,784 - INFO - Epoch [60/100] - Train Loss: 0.4609 - Val Loss: 0.5280
+2026-04-01 17:01:40,986 - INFO - Epoch [61/100] - Train Loss: 0.4597 - Val Loss: 0.5275
+2026-04-01 17:01:41,187 - INFO - Epoch [62/100] - Train Loss: 0.4574 - Val Loss: 0.5275
+2026-04-01 17:01:41,390 - INFO - Epoch [63/100] - Train Loss: 0.4599 - Val Loss: 0.5276
+2026-04-01 17:01:41,591 - INFO - Epoch [64/100] - Train Loss: 0.4598 - Val Loss: 0.5279
+2026-04-01 17:01:41,793 - INFO - Epoch [65/100] - Train Loss: 0.4590 - Val Loss: 0.5281
+2026-04-01 17:01:41,995 - INFO - Epoch [66/100] - Train Loss: 0.4591 - Val Loss: 0.5281
+2026-04-01 17:01:42,196 - INFO - Epoch [67/100] - Train Loss: 0.4591 - Val Loss: 0.5283
+2026-04-01 17:01:42,399 - INFO - Learning rate reduced: 0.000006 -> 0.000003
+2026-04-01 17:01:42,399 - INFO - Epoch [68/100] - Train Loss: 0.4604 - Val Loss: 0.5279
+2026-04-01 17:01:42,599 - INFO - Epoch [69/100] - Train Loss: 0.4583 - Val Loss: 0.5282
+2026-04-01 17:01:42,799 - INFO - Epoch [70/100] - Train Loss: 0.4572 - Val Loss: 0.5282
+2026-04-01 17:01:43,001 - INFO - Epoch [71/100] - Train Loss: 0.4568 - Val Loss: 0.5290
+2026-04-01 17:01:43,203 - INFO - Epoch [72/100] - Train Loss: 0.4563 - Val Loss: 0.5289
+2026-04-01 17:01:43,403 - INFO - Epoch [73/100] - Train Loss: 0.4555 - Val Loss: 0.5290
+2026-04-01 17:01:43,603 - INFO - Epoch [74/100] - Train Loss: 0.4561 - Val Loss: 0.5289
+2026-04-01 17:01:43,807 - INFO - Epoch [75/100] - Train Loss: 0.4587 - Val Loss: 0.5292
+2026-04-01 17:01:44,007 - INFO - Epoch [76/100] - Train Loss: 0.4550 - Val Loss: 0.5294
+2026-04-01 17:01:44,208 - INFO - Epoch [77/100] - Train Loss: 0.4564 - Val Loss: 0.5296
+2026-04-01 17:01:44,408 - INFO - Epoch [78/100] - Train Loss: 0.4564 - Val Loss: 0.5295
+2026-04-01 17:01:44,608 - INFO - Learning rate reduced: 0.000003 -> 0.000002
+2026-04-01 17:01:44,609 - INFO - Epoch [79/100] - Train Loss: 0.4568 - Val Loss: 0.5296
+2026-04-01 17:01:44,809 - INFO - Epoch [80/100] - Train Loss: 0.4569 - Val Loss: 0.5294
+2026-04-01 17:01:45,007 - INFO - Epoch [81/100] - Train Loss: 0.4559 - Val Loss: 0.5296
+2026-04-01 17:01:45,209 - INFO - Epoch [82/100] - Train Loss: 0.4554 - Val Loss: 0.5296
+2026-04-01 17:01:45,414 - INFO - Epoch [83/100] - Train Loss: 0.4560 - Val Loss: 0.5297
+2026-04-01 17:01:45,613 - INFO - Epoch [84/100] - Train Loss: 0.4553 - Val Loss: 0.5298
+2026-04-01 17:01:45,813 - INFO - Epoch [85/100] - Train Loss: 0.4549 - Val Loss: 0.5298
+2026-04-01 17:01:46,052 - INFO - Epoch [86/100] - Train Loss: 0.4543 - Val Loss: 0.5299
+2026-04-01 17:01:46,251 - INFO - Epoch [87/100] - Train Loss: 0.4563 - Val Loss: 0.5298
+2026-04-01 17:01:46,452 - INFO - Epoch [88/100] - Train Loss: 0.4560 - Val Loss: 0.5299
+2026-04-01 17:01:46,655 - INFO - Epoch [89/100] - Train Loss: 0.4554 - Val Loss: 0.5298
+2026-04-01 17:01:46,857 - INFO - Learning rate reduced: 0.000002 -> 0.000001
+2026-04-01 17:01:46,857 - INFO - Epoch [90/100] - Train Loss: 0.4541 - Val Loss: 0.5299
+2026-04-01 17:01:47,056 - INFO - Epoch [91/100] - Train Loss: 0.4543 - Val Loss: 0.5299
+2026-04-01 17:01:47,262 - INFO - Epoch [92/100] - Train Loss: 0.4565 - Val Loss: 0.5299
+2026-04-01 17:01:47,469 - INFO - Epoch [93/100] - Train Loss: 0.4546 - Val Loss: 0.5300
+2026-04-01 17:01:47,678 - INFO - Epoch [94/100] - Train Loss: 0.4550 - Val Loss: 0.5301
+2026-04-01 17:01:47,882 - INFO - Epoch [95/100] - Train Loss: 0.4549 - Val Loss: 0.5301
+2026-04-01 17:01:48,087 - INFO - Epoch [96/100] - Train Loss: 0.4564 - Val Loss: 0.5301
+2026-04-01 17:01:48,292 - INFO - Epoch [97/100] - Train Loss: 0.4551 - Val Loss: 0.5302
+2026-04-01 17:01:48,501 - INFO - Epoch [98/100] - Train Loss: 0.4536 - Val Loss: 0.5303
+2026-04-01 17:01:48,722 - INFO - Epoch [99/100] - Train Loss: 0.4549 - Val Loss: 0.5304
+2026-04-01 17:01:48,924 - INFO - Epoch [100/100] - Train Loss: 0.4563 - Val Loss: 0.5303
+2026-04-01 17:01:48,924 - INFO - Training finished.
+2026-04-01 17:01:49,059 - INFO - Testing best model...
+2026-04-01 17:01:49,076 - INFO - Test Accuracy: 0.7550
+2026-04-01 17:01:49,076 - INFO - Test ROC-AUC: 0.8331
+2026-04-01 17:01:49,080 - INFO - 
+Classification Report:
+2026-04-01 17:01:49,083 - INFO - 
+              precision    recall  f1-score   support
+
+         0.0       0.81      0.78      0.79      1800
+         1.0       0.68      0.72      0.70      1200
+
+    accuracy                           0.76      3000
+   macro avg       0.75      0.75      0.75      3000
+weighted avg       0.76      0.76      0.76      3000
+
+2026-04-01 17:01:49,087 - INFO - Saved test predictions to FT-Transformer/test_predictions.csv
+2026-04-01 17:01:49,088 - INFO - Saved evaluation metrics to FT-Transformer/test_eval.csv
