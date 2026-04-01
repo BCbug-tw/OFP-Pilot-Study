@@ -39,5 +39,4 @@ comparison_results/
 checkpoint/
 *.pth
 *.pt
-*.csv
 
