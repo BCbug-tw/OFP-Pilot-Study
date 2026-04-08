@@ -21,8 +21,50 @@
 在特徵工程部分，將 `BMI`, `MentHlth`, `PhysHlth` 列為連續型數值特徵 (採用 `StandardScaler` 標準化)，其餘皆視為類別型特徵 (採用 `OrdinalEncoder` 轉為整數索引)。
 本次選用了三種主流的梯度提升樹 (GBDT) 框架以及一種專為結構化資料設計的 Transformer 深度學習模型：
 
-### 梯度提升樹模型 (GBDTs)
+### 模型概論與特性比較
+
+以下針對本次實驗採用的四種模型之核心架構、優勢以及文獻進行簡要說明：
+
+#### 1. XGBoost (Extreme Gradient Boosting)
+*   **核心技術：** 基於決策樹的梯度提升演算法，其大變革在於目標函數中加入了自訂的正規化項 (Regularization) 以抑制模型複雜度，並引入二階泰勒展開 (Second-order Taylor expansion) 近似真實損失函數，從而更精準且快速地尋找最佳分裂節點。
+*   **模型優勢：** 防過擬合能力強大，對於特徵缺失值具有內建的自主學習路徑機制。因其高度的穩定性與強大的預測效能，長期以來是 Kaggle 等各類資料科學競賽中最具指標性的經典首選模型。
+*   **參考文獻：** Chen, T., & Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. *arXiv preprint arXiv:1603.02754*. [[文獻連結]](https://arxiv.org/abs/1603.02754)
+
+#### 2. LightGBM (Light Gradient Boosting Machine)
+*   **核心技術：** 為了突破傳統 GBDT 演算法面臨大規模數據時的計算與記憶體瓶頸，微軟引入了兩大技術：GOSS (基於梯度的單邊採樣) 用以減少樣本數量，與 EFB (互斥特徵綁定) 用以降維處理。最特別的是捨棄了傳統的「按層生長 (Level-wise)」改採「按葉節點生長 (Leaf-wise)」策略。
+*   **模型優勢：** 極大化了運算與記憶體使用效率，在大量資料的訓練速度與資源消耗上展現壓倒性優勢，且內建優異的類別型特徵平行處理能力，使得整體正確率依舊能維持在高檔。
+*   **參考文獻：** Ke, G., et al. (2017). LightGBM: A Highly Efficient Gradient Boosting Decision Tree. *Advances in Neural Information Processing Systems*. [[文獻連結]](https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree)
+
+#### 3. CatBoost (Categorical Boosting)
+*   **核心技術：** 由 Yandex 研發的框架，創新地以「排序提升 (Ordered Boosting)」技術訓練模型，用來克服統計上的目標洩漏 (Target Leakage) 與預測偏移。此外，樹狀結構上採用了「對稱樹 / 遺忘樹 (Oblivious Trees)」，使所有葉節點在同一深度的判斷規則完全一致。
+*   **模型優勢：** 擁有所有演算法家族裡最強大的「原生處理類別型特徵 (Categorical Features)」能力，工程師幾乎無須手動進行 One-Hot Encoding 前置作業。其演算法特性使其天然具備極強的防過擬合與泛化能力，且推論 (Inference) 階段的預測延遲極低。
+*   **參考文獻：** Prokhorenkova, L., et al. (2018). CatBoost: unbiased boosting with categorical features. *arXiv preprint arXiv:1706.09516*. [[文獻連結]](https://arxiv.org/abs/1706.09516)
+
+#### 4. FT-Transformer (Feature Tokenizer + Transformer)
+*   **核心技術：** 借鑑並遷移在 NLP 領域具備統治地位的 Transformer 模型架構。概念上會透過 Feature Tokenizer 將表格中的每一個「特徵」(無論數值型或類別型) 轉換映射成等長的獨立嵌入向量 (Embeddings)，其後再將所有向量送入由多層多頭注意力機制 (Multi-head Attention) 構成的深層網路架構中。
+*   **模型優勢：** Attention 的機制使其極度擅長深層學習各個特徵彼此之間複雜、非線性的深度交互關聯 (Feature Interactions)。在面對架構複雜、特徵之間干擾性強的結構化資料表時，經常能突破傳統以樹節點切割空間的極限。
+*   **參考文獻：** Gorishniy, Y., et al. (2021). Revisiting Deep Learning Models for Tabular Data. *arXiv preprint arXiv:2106.11959*. [[文獻連結]](https://arxiv.org/abs/2106.11959)
+
+#### 綜合比較表
+
+綜合比較各模型特性的差異：
+
+| 比較項目 / 模型 | XGBoost | LightGBM | CatBoost | FT-Transformer |
+| :--- | :--- | :--- | :--- | :--- |
+| **演算法/模型類型** | 決策樹 (GBDT) | 決策樹 (GBDT) | 決策樹 (GBDT) | 深度學習 (Transformer) |
+| **樹生長機制/模型機制**| Level-wise (按層生長) | Leaf-wise (按葉節點生長) | Oblivious Trees (對稱樹) | 多頭注意力機制 (Attention) |
+| **訓練速度** | 中等 ~ 快 | **極快** (因採用 GOSS/EFB) | 偏慢 (建構對稱樹及排序提升成本高) | 慢 (高度依賴 GPU 運算) |
+| **類別特徵處理** | 傳統依賴 One-Hot 或化為數值 | 原生演算法內建支援 | **最強** (具極佳的分類特徵優化) | 依賴先行轉換為 Token 向量 |
+| **抗過擬合能力** | 中等 (具備自訂的正規化項) | 較弱 (需限制樹深，小樣本極易過擬合) | **強** (Ordered Boosting 降低目標洩漏)| 普通 (需搭配正規化與 Dropout 等) |
+| **核心優勢** | 表現穩健，資料科學競賽基準首選 | 運算效能極佳，適合處理大量且高維度資料 | 類別特徵多時首選，強烈防過擬合 | 深度捕捉特徵間複雜而隱含的交互作用 |
+
+---
+
+### 原模型參數與設定
+
 各模型經由 Optuna 進行超參數優化（Hyperparameter Optimization）後的最終設定如下：
+
+#### 梯度提升樹模型 (GBDTs)
 1.  **XGBoost:**
     *   **樹木叢集數量 (n_estimators)：** 1000
     *   **樹的最大深度 (max_depth)：** 4
@@ -50,7 +92,7 @@
     *   **提早停止設定 (early_stopping_rounds)：** 50，監控驗證集的 `Logloss`。
     *   **特徵處理：** 設定 `cat_features`，交給 CatBoost 在訓練期間自動處理類別特徵。
 
-### 深度學習模型
+#### 深度學習模型
 4.  **FT-Transformer (Feature Tokenizer + Transformer):**
     *   **架構：** `rtdl.FTTransformer`，專案引進的專注於對結構化資料特徵進行 Tokenize 後送入 Transformer 的模型。利用 `[CLS]` token 映射至最後的二元預測輸出。
     *   **訓練策略：** 使用 `AdamW` 優化器 (`lr=1e-4`, `weight_decay=1e-5`)，搭配 `BCEWithLogitsLoss`。引進了 **`ReduceLROnPlateau`** 學習率排程器（當 Validation Loss 停滯時自動調降 LR），Batch Size 設定為 `512`。

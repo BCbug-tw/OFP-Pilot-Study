@@ -18,10 +18,38 @@
 
 本次實驗使用了標準卷積神經網路 (CNN) 與近年主流的視覺 Transformer 進行比較，並導入了多種預訓練及 Parameter-Efficient Fine-Tuning (PEFT) 策略。
 
-### 訓練模型架構
-1.  **ResNet50:** 作為 CNN 的強勢基準模型 (Baseline)。
-2.  **Swin-Transformer (Tiny / Swin-T):** 具備階層式結構的區域性 Transformer。
-3.  **Vision Transformer (ViT):** 標準基於全域自注意力機制的視覺 Transformer。
+### 訓練模型架構與特性比較
+
+以下針對本次實驗採用的三種模型之核心技術、優勢以及文獻進行簡要說明：
+
+#### 1. ResNet50 (Residual Network 50)
+*   **核心技術：** 最為經典的卷積神經網路 (CNN) 架構之一。其突破性在於引入「殘差連接 (Residual Connections)」，允許神經網路在計算中跳過某些層級，將前一層的輸入直接加到輸出上，成功解決了深度神經網路在層數過深時容易產生的「梯度消失 (Vanishing Gradient)」問題。
+*   **模型優勢：** 具有強大的局部特徵萃取能力與歸納偏置 (Inductive Bias)。架構極其成熟且非常穩定，即便在資料量有限的小型資料集上也不容易遭遇嚴重的過擬合，經常作為特徵挖掘與醫學影像分類任務的黃金基準模型 (Baseline)。
+*   **參考文獻：** He, K., et al. (2016). Deep Residual Learning for Image Recognition. *arXiv preprint arXiv:1512.03385*. [[文獻連結]](https://arxiv.org/abs/1512.03385)
+
+#### 2. Vision Transformer (ViT)
+*   **核心技術：** 完全捨棄傳統的卷積操作，大膽將影像切分成固定大小的區塊 (Patches) 並攤平成一維序列，如同將影像視為一段句子中的單字 (Tokens)，接著送入源自 NLP 領域的自注意力機制 (Self-Attention) 架構中進行全域性學習。
+*   **模型優勢：** 打破 CNN 只能受限於局部感受野進行特徵融合的限制，能建構出捕捉輸入影像「全域性關聯 (Global Context)」的表示能力。在資料量龐大並搭配足夠的預訓練權重時，其分類準確率以及泛化效能往往能超越最頂尖的 CNN 架構。
+*   **參考文獻：** Dosovitskiy, A., et al. (2020). An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale. *arXiv preprint arXiv:2010.11929*. [[文獻連結]](https://arxiv.org/abs/2010.11929)
+
+#### 3. Swin-Transformer (Shifted Window Transformer)
+*   **核心技術：** 試圖融合 CNN 局部性與 ViT 全域性的一個進階階層式 Transformer 變體。透過限制 Self-Attention 只在局部的「視窗 (Window)」內計算以大幅降低運算複雜度，並在層與層之間交替「平移視窗 (Shifted Window)」，讓不同視窗之間能夠有效地進行跨區域訊息交換。
+*   **模型優勢：** 兼具 Transformer 架構的彈性與傳統卷積網路「層級性縮小解析度 (Hierarchical)」的優良傳統。這使得其計算複雜度隨影像大小僅呈線性增長而非平方增加，特別適合處理高解析度影像與保留微細特徵。
+*   **參考文獻：** Liu, Z., et al. (2021). Swin Transformer: Hierarchical Vision Transformer using Shifted Windows. *arXiv preprint arXiv:2103.14030*. [[文獻連結]](https://arxiv.org/abs/2103.14030)
+
+#### 綜合比較表
+
+綜合比較各影像模型特性的差異：
+
+| 比較項目 / 模型 | ResNet50 | Vision Transformer (ViT) | Swin-Transformer |
+| :--- | :--- | :--- | :--- |
+| **模型架構** | 卷積神經網路 (CNN) | 視覺轉換器 (Vision Transformer) | 階層式視覺轉換器 |
+| **核心處理機制** | 局部卷積 (Convolution) | 全域自注意力 (Global Self-Attention) | 局部視窗自注意力 (Window Self-Attention) |
+| **空間結構特徵** | 解析度逐層遞減 (Hierarchical)| 始終維持單一解析度分塊 | 解析度逐層遞減 (Hierarchical) |
+| **歸納偏置程度**| 高 (天生自帶影像平移不變性) | 極低 (需依賴龐大資料進行自我學習) | 中 (融合了局部運算特性與平移機制) |
+| **性能極限**| 容易遭遇瓶頸飽和 | **極高** (總資料量越大，優勢越明顯) | 高 (在多尺度預測任務上表現優異) |
+| **小樣本穩定能力**| **最強** (極容易收斂且表現穩定) | 偏弱 (強烈仰賴極佳的預訓練起始權重) | 普通 (視預訓練權重的領域適應性而定) |
+| **優勢與應用場景**| 運算速度快、常做為基準(Baseline)首推 | 解譯全域複雜特徵、擁有龐大預訓練權重時 | 適合需要多尺度特徵融合的精細視覺任務 |
 
 ### 預訓練策略 (Pre-training)
 所有模型皆比較了兩種初始權重：
