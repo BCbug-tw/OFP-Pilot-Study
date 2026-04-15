@@ -16,7 +16,7 @@
 
 ## 2. 訓練之模型與策略
 
-本次實驗使用了標準卷積神經網路 (CNN) 與近年主流的視覺 Transformer 進行比較，並導入了多種預訓練及 Parameter-Efficient Fine-Tuning (PEFT) 策略。
+本次實驗使用了標準卷積神經網路 (CNN) 與近年主流的視覺 Transformer 進行比較，並導入了多種預訓練、Learning Rate Decay (LLRD) 學習率策略 及 Parameter-Efficient Fine-Tuning (PEFT) 策略。
 
 ### 訓練模型架構與特性比較
 
@@ -54,7 +54,7 @@
 ### 預訓練策略 (Pre-training)
 所有模型皆比較了兩種初始權重：
 *   **ImageNet-1K:** 標準的大規模影像資料集預訓練權重。
-*   **DAPT (Domain-Adaptive Pre-Training):** 針對醫療/專屬領域資料進行的無監督或自監督適應性預訓練。 ResNet 採用的 Spark，Swin-T 採用的 SimMIM，以及 ViT 採用的 MAE (Masked Autoencoders) 等產出的局部最佳權重。預訓練權重所使用的資料集為 ChestMNIST。
+*   **DAPT (Domain-Adaptive Pre-Training):** 針對醫療/專屬領域資料進行的無監督或自監督適應性預訓練。 ResNet 採用的 Spark，Swin-T 採用的 SimMIM，以及 ViT 採用的 MAE (Masked Autoencoders) 等產出的局部最佳權重。預訓練權重所使用的資料集為**完整的 ChestMNIST 訓練集 (約 78,468 張影像)**。
 
 ### 微調機制 (Fine-Tuning, FT)
 對於 Transformer 架構 (ViT & Swin-T) 的 DAPT 權重，進一步嘗試了以下幾種進階 FT 機制：
@@ -113,9 +113,21 @@
 4.  **Swin-Transformer 的領域適應困境：**
     *   **Swin-T (ImageNet)** 的原始表現相當出眾 (Accuracy高達 0.715)，但一旦換用 **Swin-T (DAPT)**，所有指標皆出現顯著下滑 (AUC 從 0.7378 跌至 0.6783)。
     *   將 **LoRA** 套用於 Swin-T_DAPT 時幾乎崩潰，Recall 降至 0.075 (模型幾乎無法預測出正樣本)，AUC 掉至 0.5533 (近乎隨機猜測)。
-    *   **可能原因：** Swin-Transformer 複雜的 Window Attention 階層式結構，在進行 DAPT 預訓練時可能並未良好收斂，或是產生的特徵空間與 LoRA 預設配置的適應性極差（例如 LoRA rank 或插入的位置不適合 Window Attention），導致微調失敗。
+    *   **可能原因 (特徵崩潰與目標過擬合)：**
+        1. **預訓練任務過度擬合 (Overfitting)：** Swin-T 依賴於「局部視窗注意力 (Window Attention)」。在進行 SimMIM (遮蔽重建) 這類 DAPT 時，模型極易過度擬合 X 光片中高度重複的局部特徵（如肋骨邊緣、儀器雜訊），導致模型遺忘原先 ImageNet 權重具備的輪廓辨識能力（災難性遺忘）。
+        2. **LoRA 轉換空間不足：** 肺浸潤判斷需要完整的肺部結構，然而當高度特化於局部紋理的權重進入微調訓練時，LoRA (Rank=16) 提供較小的參數更新空間，無法將局部紋理特徵轉回全局病理特徵。模型陷入解碼困境，選擇放棄預測正樣本 (導致 Recall 崩盤)。反觀 ViT 由於具備全域注意力，能觀察影像全域特徵，因此未發生此現象。
 
 
 ### 後續建議：
-*   **針對 Swin-T:** 如果後續要繼續使用 Swin-Transformer，建議放棄目前的 DAPT 權重，退回 ImageNet 進行實驗，或是重新檢視並調整用於 Swin 的領域預訓練 (Domain Pre-training) 方法及 LoRA 的設定 (例如將 LoRA 套用到其他投影矩陣)。
-*   **針對整體模型選擇:** 目前 **ViT + DAPT + LoRA** 是在使用進階微調技術下表現最好且最均衡的配置，可以做為後續開發基於 Transformer 模型的主力方向。同時 **ResNet50** 由於其實現簡單與高 AUC，仍不失為一個堅實的備案或對照組。
+
+1.  **針對 Swin-T 的預訓練優化策略:**
+    *   **轉換 DAPT 任務:** 鑑於 SimMIM 易造成的局部過度擬合，建議將自監督學習任務轉換為**語意對比學習 (Contrastive Learning)**（如 MoCo v3 或 DINO ）。透過多視角影像對立，強迫 Swin-T 學習肺部的全域病理特徵，減少對局部像素紋理的依賴。
+    *   **改良遮蔽策略:** 如需沿用 MIM 機制，建議提高遮擋率 (Masking Ratio 增至 75% 以上)，或引進大區塊遮擋 (Block-wise Masking)，逼迫模型必須利用上下文關聯來重建解剖結構。
+    *   **退回基準狀態:** 若短期內無法調整預訓練架構，建議 Swin-T 暫時放棄當前 DAPT 權重，直接退回 ImageNet 權重進行測試，以確保基本的收斂穩定性。
+
+2.  **調整 LoRA 微調參數設定:**
+    *   面對 Swin-T 此類複雜架構，預設 Rank=16 顯然不足以應付特徵空間的巨幅轉換。後續可嘗試調高 Rank 值 (如 32 或 64)，以釋放足夠的微調自由度。
+
+3.  **整體專案模型定位與應用:**
+    *   **研發主力:** 目前 **ViT + DAPT + LoRA** 組合表現最為優異。印證「全局注意力」架構在醫學影像自監督適應中的高穩定性，可作為視覺 Transformer 模型後續發展的主要選擇。
+    *   **穩健對照組:** 傳統卷積網路 **ResNet50** 憑藉局部特徵提取的模型架構，在此資料量級下依然展現良好的 AUC，可作為推進實驗時的基準模型 (Baseline)。
