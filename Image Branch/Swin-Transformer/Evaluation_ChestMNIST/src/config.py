@@ -15,7 +15,7 @@ class Config:
     # Experiment Toggle
     USE_DAPT = True # Set to True for DAPT experiment, False for ImageNet baseline
     USE_LLRD = False  # Set to True to enable Layer-Wise Learning Rate Decay (LLRD) for Swin-T
-    USE_LORA = False # Set to True to enable LoRA for Swin-T
+    USE_LORA = True # Set to True to enable LoRA for Swin-T
     LLRD_DECAY = 0.85 # Decay rate for LLRD
     
     # Training - Stage 2B FT 

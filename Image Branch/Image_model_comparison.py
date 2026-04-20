@@ -14,39 +14,39 @@ from sklearn.metrics import roc_curve, auc, precision_recall_curve, accuracy_sco
 MODELS_TO_COMPARE = [
     {
         "name": "ResNet50_ImageNet",
-        "prediction_file": "ResNet50/Evaluation_ChestMNIST/output_baseline_10k_binary/evaluation/test_predictions_baseline.csv",
+        "prediction_file": "Image Branch/ResNet50/Evaluation_ChestMNIST/output_baseline_10k_binary/evaluation/test_predictions_baseline.csv",
     },
     {
         "name": "Swin-T_ImageNet",
-        "prediction_file": "Swin-Transformer/Evaluation_ChestMNIST/output_baseline_10k_binary/evaluation/test_predictions_baseline_10k_binary.csv",
+        "prediction_file": "Image Branch/Swin-Transformer/Evaluation_ChestMNIST/output_baseline_10k_binary/evaluation/test_predictions_baseline_10k_binary.csv",
     },
     {
         "name": "Swin-T_DAPT",
-        "prediction_file": "Swin-Transformer/Evaluation_ChestMNIST/output_dapt_10k_binary/evaluation/test_predictions_dapt_10k_binary.csv",
+        "prediction_file": "Image Branch/Swin-Transformer/Evaluation_ChestMNIST/output_dapt_10k_binary/evaluation/test_predictions_dapt_10k_binary.csv",
     },
     {
         "name": "Swin-T_DAPT_LLRD",
-        "prediction_file": "Swin-Transformer/Evaluation_ChestMNIST/output_dapt_llrd_10k_binary/evaluation/test_predictions_dapt_llrd_10k_binary.csv",
+        "prediction_file": "Image Branch/Swin-Transformer/Evaluation_ChestMNIST/output_dapt_llrd_10k_binary/evaluation/test_predictions_dapt_llrd_10k_binary.csv",
     },
     {
         "name": "Swin-T_DAPT_LoRA",
-        "prediction_file": "Swin-Transformer/Evaluation_ChestMNIST/output_dapt_lora_10k_binary/evaluation/test_predictions_dapt_lora_10k_binary.csv",
+        "prediction_file": "Image Branch/Swin-Transformer/Evaluation_ChestMNIST/output_dapt_lora_10k_binary/evaluation/test_predictions_dapt_lora_10k_binary.csv",
     },
     {
         "name": "ViT_ImageNet",
-        "prediction_file": "Vision Transformer/Evaluation_ChestMNIST/output_baseline_10k_binary/evaluation/test_predictions_baseline_10k_binary.csv",
+        "prediction_file": "Image Branch/Vision Transformer/Evaluation_ChestMNIST/output_baseline_10k_binary/evaluation/test_predictions_baseline_10k_binary.csv",
     },
     {
         "name": "ViT_DAPT",
-        "prediction_file": "Vision Transformer/Evaluation_ChestMNIST/output_dapt_10k_binary/evaluation/test_predictions_dapt_10k_binary.csv",
+        "prediction_file": "Image Branch/Vision Transformer/Evaluation_ChestMNIST/output_dapt_10k_binary/evaluation/test_predictions_dapt_10k_binary.csv",
     },
     {
         "name": "ViT_DAPT_LLRD",
-        "prediction_file": "Vision Transformer/Evaluation_ChestMNIST/output_dapt_llrd_10k_binary/evaluation/test_predictions_dapt_llrd_10k_binary.csv",
+        "prediction_file": "Image Branch/Vision Transformer/Evaluation_ChestMNIST/output_dapt_llrd_10k_binary/evaluation/test_predictions_dapt_llrd_10k_binary.csv",
     },
     {
         "name": "ViT_DAPT_LoRA",
-        "prediction_file": "Vision Transformer/Evaluation_ChestMNIST/output_dapt_lora_10k_binary/evaluation/test_predictions_dapt_lora_10k_binary.csv",
+        "prediction_file": "Image Branch/Vision Transformer/Evaluation_ChestMNIST/output_dapt_lora_10k_binary/evaluation/test_predictions_dapt_lora_10k_binary.csv",
     }
 ]
 
