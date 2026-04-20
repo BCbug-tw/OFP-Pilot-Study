@@ -3,6 +3,7 @@ import os
 import numpy as np
 import torch
 import logging
+from datetime import datetime
 
 def set_seed(seed=42):
     random.seed(seed)
@@ -16,16 +17,32 @@ def set_seed(seed=42):
 
 class MetricLogger:
     def __init__(self, log_dir):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger("ChestMNIST_Logger") # More specific name
         self.logger.setLevel(logging.INFO)
+        
         if not self.logger.handlers:
+            os.makedirs(log_dir, exist_ok=True)
+            log_file = os.path.join(log_dir, 'log.txt')
+            
+            # Log Rotation logic
+            if os.path.exists(log_file):
+                # Try to get the last modification time for the backup suffix
+                mtime = os.path.getmtime(log_file)
+                timestamp = datetime.fromtimestamp(mtime).strftime('%Y%m%d_%H%M%S')
+                backup_file = os.path.join(log_dir, f'log_backup_{timestamp}.txt')
+                try:
+                    os.rename(log_file, backup_file)
+                    # We'll log this to the console but not the file yet
+                    print(f"Archived existing log to: {backup_file}")
+                except Exception as e:
+                    print(f"Warning: Could not archive existing log: {e}")
+
             handler = logging.StreamHandler()
             formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
             
-            os.makedirs(log_dir, exist_ok=True)
-            fh = logging.FileHandler(os.path.join(log_dir, 'log.txt'))
+            fh = logging.FileHandler(log_file, mode='w', encoding='utf-8')
             fh.setFormatter(formatter)
             self.logger.addHandler(fh)
             
