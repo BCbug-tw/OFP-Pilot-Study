@@ -22,14 +22,14 @@ class MetricLogger:
         
         if not self.logger.handlers:
             os.makedirs(log_dir, exist_ok=True)
-            log_file = os.path.join(log_dir, 'log.txt')
+            log_file = os.path.join(log_dir, 'logger.log')
             
             # Log Rotation logic
             if os.path.exists(log_file):
                 # Try to get the last modification time for the backup suffix
                 mtime = os.path.getmtime(log_file)
                 timestamp = datetime.fromtimestamp(mtime).strftime('%Y%m%d_%H%M%S')
-                backup_file = os.path.join(log_dir, f'log_backup_{timestamp}.txt')
+                backup_file = os.path.join(log_dir, f'logger_backup_{timestamp}.log')
                 try:
                     os.rename(log_file, backup_file)
                     # We'll log this to the console but not the file yet
