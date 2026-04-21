@@ -5,7 +5,7 @@ from config import Config
 
 def plot_loss(log_path=None, save_dir=None, show_plot=False):
     if log_path is None:
-        log_path = os.path.join(Config.OUTPUT_DIR, 'log.txt')
+        log_path = os.path.join(Config.OUTPUT_DIR, 'logger.log')
     if save_dir is None:
         save_dir = Config.OUTPUT_DIR
 
@@ -36,7 +36,7 @@ def plot_loss(log_path=None, save_dir=None, show_plot=False):
     plt.plot(epochs, train_losses, label='Train Loss')
     plt.plot(epochs, val_losses, label='Val Loss')
     
-    plt.title('Training and Validation Loss')
+    plt.title(f'Training and Validation Loss ({Config.exp_name})')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend()

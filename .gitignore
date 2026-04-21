@@ -37,7 +37,6 @@ Thumbs.db
 comparison_results/
 **/output_*/
 *.log
-**/*.txt
 checkpoint/
 *.pth
 *.pt
