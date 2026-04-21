@@ -131,7 +131,7 @@
     四個模型在此資料集上的表現彼此極為接近。 Accuracy 落在 0.756～0.761 之間，而 AUC 則在 0.832～0.834 之間波動。這與圖表上看到的高度重合結果完全呼應，顯示即使是不同原理的演算法，其預測天花板也相當接近。
 
 3.  **GBDT 的穩定性與同質性：**
-    傳統的三大樹狀模型 (`XGBoost`, `LightGBM`, `CatBoost`) 產出的各項指標 (包含 AUC 0.831) 趨近完全相同。其中 `CatBoost` 與 `XGBoost` 的 Recall 微幅領先，其結果代表模型找出了稍微多一些有糖尿病的患者。GBDT 在無複雜資料預處理的優勢下，依舊展現了在 Tabular Data 上強大的即戰力與一致性。
+    傳統的三大樹狀模型 (`XGBoost`, `LightGBM`, `CatBoost`) 產出的各項指標 (包含 AUC 0.831) 趨近完全相同。其中 `CatBoost` 與 `XGBoost` 的 Recall 微幅領先，其結果代表模型正確找回了稍微多一些的糖尿病患者。GBDT 在無複雜資料預處理的優勢下，依舊展現了在 Tabular Data 上強大的即戰力與一致性。
 
 4.  **FT-Transformer 的突破與權衡：**
     *   **優勢：** 在引入學習率排程與最佳化訓練流程後，FT-Transformer 展現了極強的分類能力，成功達成了全模型最高的 **Accuracy (0.761)** 與最高的 **Precision (0.704)**。這證實了將特徵 Tokenize 化再送入 Transformer 提取特徵互動 (Feature Interactions) 的方法，在分類準確度上的確具有領先優勢。
