@@ -11,13 +11,13 @@ import logging
 import matplotlib.pyplot as plt
 
 
-def setup_logging(output_dir, log_filename='log.txt'):
+def setup_logging(output_dir, log_filename='logger.log'):
     """
     Initialize a logger that writes to both a file and the console.
 
     Args:
         output_dir (str): Directory to save the log file.
-        log_filename (str): Name of the log file (default: 'log.txt').
+        log_filename (str): Name of the log file (default: 'logger.log').
 
     Returns:
         logging.Logger: Configured logger instance.
@@ -86,7 +86,7 @@ def plot_loss_from_log(log_path, save_dir, title='Training and Validation Loss',
         ... Epoch [1/100] - Train Loss: 0.5478 - Val Loss: 0.5322
 
     Args:
-        log_path (str): Path to the log.txt file.
+        log_path (str): Path to the logger.log file.
         save_dir (str): Directory to save the plot.
         title (str): Plot title.
         show_plot (bool): Whether to display the plot interactively.

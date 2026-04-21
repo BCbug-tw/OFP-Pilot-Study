@@ -158,7 +158,7 @@ def main():
 
     # Plot Loss Curve from log
     plot_loss_from_log(
-        log_path=os.path.join(OUTPUT_DIR, 'log.txt'),
+        log_path=os.path.join(OUTPUT_DIR, 'logger.log'),
         save_dir=OUTPUT_DIR,
         title='FT-Transformer Training and Validation Loss'
     )
